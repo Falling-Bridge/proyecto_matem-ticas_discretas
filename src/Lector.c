@@ -1,5 +1,5 @@
 #include "lector.h"
-#include "freememory.h" // Incluir el encabezado para la liberacion de memoria
+#include "freememory.h"
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -9,7 +9,7 @@ void leerarchivo(FILE *archivo) {
     // Leer el numero de nodos
     if (fscanf(archivo, "%d", &n) != 1) {
         printf("Error al leer la cantidad de nodos.\n");
-        goto error; // Ir a la seccion de error
+        goto error; 
     }
     printf("Cantidad de nodos: %d\n", n);
 
@@ -17,7 +17,7 @@ void leerarchivo(FILE *archivo) {
     Fila *filas = malloc(n * sizeof(Fila));
     if (filas == NULL) {
         printf("Error al asignar memoria para las filas.\n");
-        goto error; // Ir a la seccion de error
+        goto error; 
     }
 
     int contador_nodos = 0;
@@ -25,7 +25,7 @@ void leerarchivo(FILE *archivo) {
     // Leer cada fila hasta n nodos
     while (contador_nodos < n) {
         int primer_valor;
-        char linea[4096];  // Buffer para leer la linea completa
+        char linea[1024];  // Buffer para leer la linea completa, 
         if (fgets(linea, sizeof(linea), archivo) != NULL) {
             // Ignorar lineas vacias
             if (linea[0] == '\n') {
@@ -35,7 +35,7 @@ void leerarchivo(FILE *archivo) {
             // Leer el 'nombre' del nodo
             if (sscanf(linea, "%d:", &primer_valor) != 1) {
                 printf("Error al leer el nodo %d.\n", contador_nodos + 1);
-                goto error; // Ir a la seccion de error
+                goto error; 
             }
 
             filas[contador_nodos].primera_columna = primer_valor;
@@ -58,7 +58,7 @@ void leerarchivo(FILE *archivo) {
                 // Verificar que el vecino no sea el mismo nodo
                 if (valor_adyacente == primer_valor) {
                     printf("Error: El nodo %d no puede ser vecino de si mismo.\n", primer_valor);
-                    goto error; // Ir a la seccion de error
+                    goto error; 
                 }
 
                 // Verificar si ya existe el vecino (duplicado)
@@ -71,15 +71,15 @@ void leerarchivo(FILE *archivo) {
                 }
 
                 if (esDuplicado) {
-                    printf("Error: No puede haber vecinos repetidos para el nodo %d.\n", primer_valor);
-                    goto error; // Ir a la seccion de error
+                    printf("Error: No puede haber vecinos repetidos, vecino repetido en el nodo %d.\n", primer_valor);
+                    goto error; 
                 }
 
                 // Agregar el vecino
                 filas[contador_nodos].vecinos = realloc(filas[contador_nodos].vecinos, (filas[contador_nodos].cantidad + 1) * sizeof(int));
                 if (filas[contador_nodos].vecinos == NULL) {
                     printf("Error al asignar memoria para los vecinos.\n");
-                    goto error; // Ir a la seccion de error
+                    goto error; 
                 }
                 filas[contador_nodos].vecinos[filas[contador_nodos].cantidad] = valor_adyacente;
                 filas[contador_nodos].cantidad++;
@@ -103,19 +103,19 @@ void leerarchivo(FILE *archivo) {
     // Verificar si se leyeron exactamente n nodos
     if (contador_nodos != n) {
         printf("Error: Se esperaban %d nodos, pero se leyeron %d.\n", n, contador_nodos);
-        goto error; // Ir a la seccion de error
+        goto error; 
     }
 
     // Verificar si hay mas nodos despues de los n leidos
     char siguiente_char = fgetc(archivo);
     if (siguiente_char != EOF && siguiente_char != '\n') {
         printf("Error: Se encontraron nodos adicionales despues de los %d nodos especificados.\n", n);
-        goto error; // Ir a la seccion de error
+        goto error; 
     }
 
     // Verificar la reciprocidad de los vecinos
     if (!tieneVecinoReciproco(filas, n)) {
-        goto error; // Ir a la seccion de error
+        goto error; 
     }
 
     // Imprimir las filas leidas
