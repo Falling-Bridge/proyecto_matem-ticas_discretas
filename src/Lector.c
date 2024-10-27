@@ -93,7 +93,8 @@ void leerarchivo(FILE *archivo) {
                 }
             }
 
-            contador_nodos++; // Incrementar el contador de nodos leidos
+            free(marcador);
+            contador_nodos++; // Incrementar el contador de nodos leídos
         } else {
             // Si se llega al final del archivo y aun no se han leido n nodos
             break;
