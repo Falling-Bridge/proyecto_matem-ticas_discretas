@@ -1,6 +1,4 @@
-// freememory.c
-#include "freememory.h" // Asegúrate de incluir el encabezado correspondiente
-#include <stdlib.h>
+#include "../include/freememory.h"
 
 void liberarMemoria(Fila *filas, int n) {
     for (int i = 0; i < n; i++) {

@@ -1,8 +1,8 @@
-// freememory.h
 #ifndef FREEMEMORY_H
 #define FREEMEMORY_H
 
-#include "lector.h"
+#include <stdlib.h>
+#include "../include/lector.h"
 
 void liberarMemoria(Fila *filas, int n);
 

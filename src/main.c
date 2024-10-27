@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lector.h"
+#include "../include/lector.h"
 
 int main() {
-    char archivo[100];
-    printf("Ingrese el nombre del archivo, con la extension del mismo: ");
-    scanf("%s", archivo);
+    char *archivo = "prueba.txt";
 
     FILE *lectura = fopen(archivo, "r");
     if (lectura == NULL) {
@@ -14,6 +12,5 @@ int main() {
     }
 
     leerarchivo(lectura);
-    fclose(lectura);
     return 0;
 }

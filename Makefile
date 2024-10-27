@@ -8,7 +8,7 @@ OBJDIR = obj
 INCDIR = include
 
 # Archivos fuente y objetos
-codigo = $(SRCDIR)/Lector.c $(SRCDIR)/verificador.c $(SRCDIR)/main.c $(SRCDIR)/freememory.c
+codigo = $(SRCDIR)/Lector.c $(SRCDIR)/main.c $(SRCDIR)/freememory.c $(SRCDIR)/conexidad.c
 OBJECTS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(codigo))
 
 # Aseguramos que no se consideren estas como archivos
