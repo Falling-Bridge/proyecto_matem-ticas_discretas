@@ -1,4 +1,4 @@
-#include "../include/visualización.h"
+#include "../include/visualizacion.h"
 
 //consultar el tamaño del grafo - Esto es simplemente el valor de n
 //consultar el grafo - Esto es simplemente imprimir el grafo

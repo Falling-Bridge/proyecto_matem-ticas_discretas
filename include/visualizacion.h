@@ -1,5 +1,5 @@
-#ifndef VISUALIZACIÓN_H
-#define VISUALIZACIÓN_H
+#ifndef VISUALIZACION_H
+#define VISUALIZACION_H
 
 #include <stdio.h>
 #include <stdlib.h>
