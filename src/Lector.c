@@ -138,6 +138,7 @@ void leerarchivo(FILE *archivo)
     imprimirGrafo(filas, n);
     if (esConexo(filas, n)) printf("Es conexo\n\n");
     else printf("No es conexo\n\n");
+    eliminarNodos(filas, n);
     liberarMemoria(filas, n);
     return;
 
