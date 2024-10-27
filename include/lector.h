@@ -18,6 +18,5 @@ typedef struct {
 void leerarchivo(FILE *archivo);
 bool tieneVecinoReciproco(Fila *filas, int n);
 void imprimirGrafo(Fila *filas, int n);
-void liberarMemoria(Fila *filas, int n);
 
 #endif // LECTOR_H
