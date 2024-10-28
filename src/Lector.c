@@ -104,7 +104,6 @@ void leerarchivo(FILE *archivo) {
             break;
         }
     }
-    fclose(archivo);
 
     // Verificar si se leyeron exactamente n nodos
     if (contador_nodos != n) {
@@ -115,16 +114,17 @@ void leerarchivo(FILE *archivo) {
     // Verificar si hay más nodos después de los n leídos
     char siguiente_char = fgetc(archivo);
     if (siguiente_char != EOF && siguiente_char != '\n') {
-        printf("Error: Se encontraron nodos adicionales después de los %d nodos especificados.\n", n);
+        printf("Error: Se encontraron nodos adicionales despues de los %d nodos especificados.\n", n);
         goto error;
     }
 
+    fclose(archivo);
     if (!tieneVecinoReciproco(filas, n)) goto error;
 
     //llamado a funciones de conexidad
     imprimirGrafo(filas, n);
-    if (esConexo(filas, n, eliminados)) printf("Es conexo\n");
-    else printf("No es conexo\n");
+    if (esConexo(filas, n, eliminados)) printf("El grafo "CIAN"es conexo"RESET_COLOR"\n\n");
+    else printf("El grafo "CIAN" no es conexo"RESET_COLOR"\n\n");
     eliminarNodos(filas, n);
     liberarMemoria(filas, n);
     free(eliminados);
@@ -138,30 +138,22 @@ error:
 
 bool tieneVecinoReciproco(Fila *filas, int n){
 
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < filas[i].cantidad; j++)
-        {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < filas[i].cantidad; j++) {
             int vecino = filas[i].vecinos[j];
             bool encontrado = false;
             // Buscar el nodo actual en los vecinos del vecino
-            for (int k = 0; k < n; k++)
-            {
-                if (filas[k].primera_columna == vecino)
-                {
-                    for (int l = 0; l < filas[k].cantidad; l++)
-                    {
-                        if (filas[k].vecinos[l] == filas[i].primera_columna)
-                        {
+            for (int k = 0; k < n; k++) {
+                if (filas[k].primera_columna == vecino) {
+                    for (int l = 0; l < filas[k].cantidad; l++) {
+                        if (filas[k].vecinos[l] == filas[i].primera_columna) {
                             encontrado = true;
                             break;
                         }
                     }
                     break;
                 }
-            }
-            if (!encontrado)
-            {
+            } if (!encontrado) {
                 printf("Error: Existe la arista %d-%d, pero no existe la arista %d-%d.\n",
                        filas[i].primera_columna, vecino, vecino, filas[i].primera_columna);
                 return false; // No hay reciprocidad

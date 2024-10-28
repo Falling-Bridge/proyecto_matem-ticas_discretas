@@ -1,19 +1,19 @@
 #include "../include/conexidad.h"
 
 // Función para realizar el algoritmo DFS
-void dfs(int nodo, bool *visitado, Fila *filas, int n) {
+void dfs(int nodo, bool *visitado, Fila *filas, int n, bool *eliminados) {
     visitado[nodo] = true;
     for (int i = 0; i < filas[nodo].cantidad; i++) {
         int vecino = filas[nodo].vecinos[i];
         int indice_vecino = -1;
         for (int j = 0; j < n; j++) {
-            if (filas[j].primera_columna == vecino) {
+            if (filas[j].primera_columna == vecino && !eliminados[j]) {
                 indice_vecino = j;
                 break;
             }
         }
-        if (indice_vecino != -1 && !visitado[indice_vecino]) {
-            dfs(indice_vecino, visitado, filas, n);
+        if (indice_vecino != -1 && !visitado[indice_vecino] && !eliminados[indice_vecino]) {
+            dfs(indice_vecino, visitado, filas, n, eliminados);
         }
     }
 }
@@ -26,18 +26,22 @@ bool esConexo(Fila *filas, int n, bool *eliminados) {
         return false;
     }
 
-    // Comienza la DFS desde el primer nodo no eliminado
+    // Encuentra el primer nodo no eliminado para iniciar DFS
     int inicio = 0;
     while (inicio < n && eliminados[inicio]) {
         inicio++;
     }
 
+    // Si todos los nodos han sido eliminados, el grafo no es conexo
     if (inicio == n) {
         free(visitado);
-        return false; // Todos los nodos han sido eliminados
+        return false;
     }
 
-    dfs(inicio, visitado, filas, n);
+    // Ejecuta DFS desde el nodo inicial
+    dfs(inicio, visitado, filas, n, eliminados);
+
+    // Verifica si todos los nodos no eliminados fueron visitados
     bool conexo = true;
     for (int i = 0; i < n; i++) {
         if (!visitado[i] && !eliminados[i]) {
@@ -45,6 +49,7 @@ bool esConexo(Fila *filas, int n, bool *eliminados) {
             break;
         }
     }
+
     free(visitado);
     return conexo;
 }
@@ -66,7 +71,7 @@ void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size) {
     bool conexo = esConexo(filas, n, eliminados);
 
     // Limpiar el string del grupo
-    char *grupo_str = malloc(100); // Suponiendo un tamaño máximo de cambio, ///esto va a cambiar, pero después
+    char *grupo_str = malloc(100); // Suponiendo un tamaño máximo de 100 caracteres
     if (grupo_str == NULL) {
         printf("Error al asignar memoria para el string del grupo.\n");
         free(eliminados);
@@ -85,8 +90,7 @@ void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size) {
     }
 
     // Comprobar si el grafo es conexo y mostrar el resultado
-    if (conexo) printf("El grafo es conexo al eliminar el(los) vertice(s): %s\n", grupo_str);
-    else printf("El grafo no es conexo al eliminar el(los) vertice(s): %s\n", grupo_str);
+    printf("El grafo %ses conexo%s al eliminar %s %s: %s\n", conexo ? VERDE : ROJO "no ", RESET_COLOR, size == 1 ? "el" : "los", size == 1 ? "vertice" : "vertices", grupo_str);
     free(grupo_str);
     free(eliminados);
 }
@@ -106,14 +110,14 @@ void generarCombinaciones(Fila *filas, int n, int *grupo, int size, int start, i
 
 // Función principal que llama a la generación de combinaciones
 void eliminarNodos(Fila *filas, int n) {
-    for (int k = 1; k <= n - 2; k++) { // Eliminamos grupos de 1 hasta n-2 nodos
+    for (int k = 1; k <= n - 2; k++) { // se eliminan grupos de tamaño 1 hasta n-2
         int *grupo = malloc(k * sizeof(int));
         if (grupo == NULL) {
             printf("Error al asignar memoria para el grupo de nodos.\n");
             return;
         }
 
-        printf("Conexidad al eliminar %d vertice(s):\n", k);
+        printf("" MAGENTA "Conexidad al eliminar %d %s:\n"RESET_COLOR"", k, k == 1 ? "vertice" : "vertices");
 
         generarCombinaciones(filas, n, grupo, 0, 0, k);
         free(grupo);

@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef LECTOR_H
 #define LECTOR_H
 
@@ -6,6 +8,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
+#include "../include/colores.h"
 
 //struct para el grafo
 typedef struct {
