@@ -6,8 +6,10 @@ void leerarchivo(FILE *archivo) {
 
     // Leer el número de nodos
     if (fscanf(archivo, "%d", &n) != 1) {
-        printf("Error al leer la cantidad de nodos.\n");
-        goto error;
+        if (!isdigit(n)){
+            printf("Error al leer la cantidad de nodos.\n");
+            goto error_de_nodos;
+        }
     }
     printf("\nCantidad de nodos: %d\n\n", n);
 
@@ -120,12 +122,11 @@ void leerarchivo(FILE *archivo) {
 
     fclose(archivo);
     if (!tieneVecinoReciproco(filas, n)) goto error;
-
-    //llamado a funciones de conexidad
     imprimirGrafo(filas, n);
     if (esConexo(filas, n, eliminados)) printf("El grafo "CIAN"es conexo"RESET_COLOR"\n\n");
     else printf("El grafo "CIAN" no es conexo"RESET_COLOR"\n\n");
     eliminarNodos(filas, n);
+    imprimirVerticesDeCorte(esConexo(filas, n, eliminados));
     liberarMemoria(filas, n);
     free(eliminados);
     return;
@@ -133,6 +134,9 @@ void leerarchivo(FILE *archivo) {
 error:
     liberarMemoria(filas, n);
     free(eliminados);
+    exit(EXIT_FAILURE);
+
+error_de_nodos:
     exit(EXIT_FAILURE);
 }
 

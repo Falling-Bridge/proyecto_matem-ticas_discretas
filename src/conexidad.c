@@ -1,5 +1,34 @@
 #include "../include/conexidad.h"
 
+#define MAX_VERTICES_DE_CORTE 100
+
+// Variable global para almacenar los vértices de corte
+int vertices_de_corte[MAX_VERTICES_DE_CORTE];
+int count_vertices_de_corte = 0;
+
+// Función para almacenar el vértice de corte
+void verticesdecorte(int vertice) {
+    if (count_vertices_de_corte < MAX_VERTICES_DE_CORTE) {
+        vertices_de_corte[count_vertices_de_corte++] = vertice;
+    }
+}
+
+// Función para imprimir los vértices de corte
+void imprimirVerticesDeCorte(bool conexidad) {
+    if(conexidad) {
+        printf(""AZUL"%s"RESET_COLOR"", count_vertices_de_corte == 1 ? "El vertice de corte es el: " : "Los vertices de corte son: ");
+        for (int i = 0; i < count_vertices_de_corte; i++) {
+            printf("%d", vertices_de_corte[i]);
+            if (i < count_vertices_de_corte - 1) {
+                printf(", ");
+            }
+        }
+        printf("\n");
+    } else {
+        printf(""AZUL"No tiene caso hablar de vertices de corte, dado que el grafo no es conexo"RESET_COLOR"");
+    }
+}
+
 // Función para realizar el algoritmo DFS
 void dfs(int nodo, bool *visitado, Fila *filas, int n, bool *eliminados) {
     visitado[nodo] = true;
@@ -91,6 +120,12 @@ void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size) {
 
     // Comprobar si el grafo es conexo y mostrar el resultado
     printf("El grafo %ses conexo%s al eliminar %s %s: %s\n", conexo ? VERDE : ROJO "no ", RESET_COLOR, size == 1 ? "el" : "los", size == 1 ? "vertice" : "vertices", grupo_str);
+
+    // Almacenar el vértice si el tamaño del grupo es 1 y el grafo es no conexo
+    if (size == 1 && !conexo) {
+        verticesdecorte(grupo[0]);
+    }
+
     free(grupo_str);
     free(eliminados);
 }
