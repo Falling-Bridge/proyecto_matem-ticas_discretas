@@ -3,6 +3,7 @@
 
 void leerarchivo(FILE *archivo) {
     int n;
+    bool seguir_ejecutando_programa = true;
 
     // Leer el número de nodos
     if (fscanf(archivo, "%d", &n) != 1) {
@@ -11,7 +12,6 @@ void leerarchivo(FILE *archivo) {
             goto error_de_nodos;
         }
     }
-    printf("\nCantidad de nodos: %d\n\n", n);
 
     // Asignar memoria para las filas
     Fila *filas = malloc(n * sizeof(Fila));
@@ -122,11 +122,59 @@ void leerarchivo(FILE *archivo) {
 
     fclose(archivo);
     if (!tieneVecinoReciproco(filas, n)) goto error;
-    imprimirGrafo(filas, n);
-    if (esConexo(filas, n, eliminados)) printf("El grafo "CIAN"es conexo"RESET_COLOR"\n\n");
-    else printf("El grafo "CIAN" no es conexo"RESET_COLOR"\n\n");
-    eliminarNodos(filas, n);
-    imprimirVerticesDeCorte(esConexo(filas, n, eliminados));
+
+    while (seguir_ejecutando_programa){
+        printf(""CIAN"Ingrese el numero de la opcion que desea ver:"RESET_COLOR"\n");
+        printf("[0] para dejar de de correr el programa\n");
+        printf("[1] para ver el grafo\n");
+        printf("[2] para ver la conexidad del grafo\n");
+        printf("[3] para ver las combinatorias del grafo\n");
+        printf("[4] para ver los vertices de corte\n");
+        printf("[10] para limpiar la pantalla\n");
+
+        int opcion;
+        scanf("%d", &opcion);
+        printf("\n");
+
+        switch (opcion) {
+
+            case 0:
+                system("cls");
+                seguir_ejecutando_programa = false;
+                break;
+
+            case 1:
+                system("cls");
+                imprimirGrafo(filas, n);
+                break;
+            
+            case 2:
+                system("cls");
+                if (esConexo(filas, n, eliminados)) printf("El grafo "CIAN"es conexo"RESET_COLOR"\n\n");
+                else printf("El grafo "CIAN" no es conexo"RESET_COLOR"\n\n");
+                break;
+
+            case 3:
+                system("cls");
+                eliminarNodos(filas, n, 3);
+                break;
+            
+            case 4:
+                system("cls");
+                eliminarNodos(filas, n, 4);
+                imprimirVerticesDeCorte(esConexo(filas, n, eliminados));
+                break;
+            
+            case 10:
+                system("cls");
+                break;
+
+            default:
+                system("cls");
+                break;
+        }
+    }
+
     liberarMemoria(filas, n);
     free(eliminados);
     return;
