@@ -95,93 +95,49 @@ bool esConexo(Fila *filas, int n, bool *eliminados) {
 
 // Función para eliminar un grupo de nodos y sus aristas correspondientes del grafo
 void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size, int caso) {
-    if (caso == 3){
-        bool *eliminados = calloc(n, sizeof(bool));
-        if (eliminados == NULL) {
-            printf("Error al asignar memoria para el arreglo de eliminados.\n");
-            return;
-        }
-
-        // Marcar los nodos a eliminar
-        for (int j = 0; j < size; j++) {
-            eliminados[grupo[j] - 1] = true; // Suponiendo que los vértices empiezan desde 1
-        }
-
-        // Verificar si el nuevo grafo es conexo
-        bool conexo = esConexo(filas, n, eliminados);
-
-        // Limpiar el string del grupo
-        char *grupo_str = malloc(100); // Suponiendo un tamaño máximo de 100 caracteres
-        if (grupo_str == NULL) {
-            printf("Error al asignar memoria para el string del grupo.\n");
-            free(eliminados);
-            return;
-        }
-
-        // Formar la cadena de nodos eliminados
-        strcpy(grupo_str, "");
-        for (int j = 0; j < size; j++) {
-            char temp[10];
-            sprintf(temp, "%d", grupo[j]);
-            strcat(grupo_str, temp);
-            if (j < size - 1) {
-                strcat(grupo_str, ",");
-            }
-        }
-
-        // Comprobar si el grafo es conexo y mostrar el resultado
-        printf("El grafo %ses conexo%s al eliminar %s %s: %s\n", conexo ? VERDE : ROJO "no ", RESET_COLOR, size == 1 ? "el" : "los", size == 1 ? "vertice" : "vertices", grupo_str);
-
-        // Almacenar el vértice si el tamaño del grupo es 1 y el grafo es no conexo
-        if (size == 1 && !conexo) {
-            verticesdecorte(grupo[0]);
-        }
-
-        free(grupo_str);
-        free(eliminados);
-    }else{
-        bool *eliminados = calloc(n, sizeof(bool));
-        if (eliminados == NULL) {
-            printf("Error al asignar memoria para el arreglo de eliminados.\n");
-            return;
-        }
-
-        // Marcar los nodos a eliminar
-        for (int j = 0; j < size; j++) {
-            eliminados[grupo[j] - 1] = true; // Suponiendo que los vértices empiezan desde 1
-        }
-
-        // Verificar si el nuevo grafo es conexo
-        bool conexo = esConexo(filas, n, eliminados);
-
-        // Limpiar el string del grupo
-        char *grupo_str = malloc(100); // Suponiendo un tamaño máximo de 100 caracteres
-        if (grupo_str == NULL) {
-            printf("Error al asignar memoria para el string del grupo.\n");
-            free(eliminados);
-            return;
-        }
-
-        // Formar la cadena de nodos eliminados
-        strcpy(grupo_str, "");
-        for (int j = 0; j < size; j++) {
-            char temp[10];
-            sprintf(temp, "%d", grupo[j]);
-            strcat(grupo_str, temp);
-            if (j < size - 1) {
-                strcat(grupo_str, ",");
-            }
-        }
-
-        // Almacenar el vértice si el tamaño del grupo es 1 y el grafo es no conexo
-        if (size == 1 && !conexo) {
-            verticesdecorte(grupo[0]);
-        }
-
-        free(grupo_str);
-        free(eliminados);
+    bool *eliminados = calloc(n, sizeof(bool));
+    if (eliminados == NULL) {
+        printf("Error al asignar memoria para el arreglo de eliminados.\n");
+        return;
     }
 
+    // Marcar los nodos a eliminar
+    for (int j = 0; j < size; j++) {
+        eliminados[grupo[j] - 1] = true; // Suponiendo que los vértices empiezan desde 1
+    }
+
+    // Verificar si el nuevo grafo es conexo
+    bool conexo = esConexo(filas, n, eliminados);
+
+    // Limpiar el string del grupo
+    char *grupo_str = malloc(100); // Suponiendo un tamaño máximo de 100 caracteres
+    if (grupo_str == NULL) {
+        printf("Error al asignar memoria para el string del grupo.\n");
+        free(eliminados);
+        return;
+    }
+
+    // Formar la cadena de nodos eliminados
+    strcpy(grupo_str, "");
+    for (int j = 0; j < size; j++) {
+        char temp[10];
+        sprintf(temp, "%d", grupo[j]);
+        strcat(grupo_str, temp);
+        if (j < size - 1) {
+            strcat(grupo_str, ",");
+        }
+    }
+
+    if (caso == 3){
+        printf("El grafo %ses conexo%s al eliminar %s %s: %s\n", conexo ? VERDE : ROJO "no ", RESET_COLOR, size == 1 ? "el" : "los", size == 1 ? "vertice" : "vertices", grupo_str);
+    }
+    // Almacenar el vértice si el tamaño del grupo es 1 y el grafo es no conexo
+    if (size == 1 && !conexo) {
+        verticesdecorte(grupo[0]);
+    }
+
+    free(grupo_str);
+    free(eliminados);
 }
 
 // Función para generar todas las combinaciones de nodos a eliminar
