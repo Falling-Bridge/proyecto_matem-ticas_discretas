@@ -122,18 +122,25 @@ void leerarchivo(FILE *archivo) {
 
     fclose(archivo);
     if (!tieneVecinoReciproco(filas, n)) goto error;
+    int k_conexidad;
 
     while (seguir_ejecutando_programa){
         printf(""CIAN"Ingrese el numero de la opcion que desea ver:"RESET_COLOR"\n");
-        printf("[0] para dejar de de correr el programa\n");
-        printf("[1] para ver el grafo\n");
-        printf("[2] para ver la conexidad del grafo\n");
-        printf("[3] para ver las combinatorias del grafo\n");
-        printf("[4] para ver los vertices de corte\n");
+        printf("[0]  para dejar de correr el programa\n");
+        printf("[1]  para ver el grafo\n");
+        printf("[2]  para ver la conexidad del grafo\n");
+        printf("[3]  para ver las combinatorias del grafo\n");
+        printf("[4]  para ver los vertices de corte\n");
+        printf("[5]  para ver los grados minimos y maximos del grafo\n");
+        printf("[6]  para ver los vertices 'hoja'\n");
+        printf("[7]  para ver la k conexidad del grafo\n");
         printf("[10] para limpiar la pantalla\n");
 
         int opcion;
-        scanf("%d", &opcion);
+        char c;
+        if (scanf("%d", &opcion) != 1) {
+            while ((c = getchar()) != '\n' && c != EOF);
+        }
         printf("\n");
 
         switch (opcion) {
@@ -165,6 +172,21 @@ void leerarchivo(FILE *archivo) {
                 imprimirVerticesDeCorte(esConexo(filas, n, eliminados));
                 break;
             
+            case 5:
+                system("cls");
+                gradosdelgrafo(filas, n);
+                break;
+            
+            case 6:
+                system("cls");
+                nodos_hoja(filas, n);
+                break;
+
+            case 7:
+                system("cls");
+                retorna_K_conexidad();
+                break;
+
             case 10:
                 system("cls");
                 break;

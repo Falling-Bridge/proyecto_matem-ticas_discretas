@@ -1,21 +1,18 @@
 #include "../include/conexidad.h"
 
-#define MAX_VERTICES_DE_CORTE 100
-
-// Variable global para almacenar los vértices de corte
+// Variables globales
 int vertices_de_corte[MAX_VERTICES_DE_CORTE];
 int count_vertices_de_corte = 0;
+int k_conexidad = 0;
 
 // Función para almacenar el vértice de corte
 void verticesdecorte(int vertice) {
-    // Verificar si el vértice ya está en la lista
     for (int i = 0; i < count_vertices_de_corte; i++) {
         if (vertices_de_corte[i] == vertice) {
-            return; // Si ya está, salir de la función
+            return;
         }
     }
 
-    // Si no está, agregarlo
     if (count_vertices_de_corte < MAX_VERTICES_DE_CORTE) {
         vertices_de_corte[count_vertices_de_corte++] = vertice;
     }
@@ -24,7 +21,7 @@ void verticesdecorte(int vertice) {
 // Función para imprimir los vértices de corte
 void imprimirVerticesDeCorte(bool conexidad) {
     if (conexidad && count_vertices_de_corte == 0) {
-        printf(""AZUL"El grafo no tiene vertices de corte"RESET_COLOR"\n\n");
+        printf("El grafo "ROJO"no tiene "RESET_COLOR" vertices de corte"RESET_COLOR"\n\n");
     } else if (conexidad && count_vertices_de_corte != 0) {
         printf(""AZUL"%s"RESET_COLOR"", count_vertices_de_corte == 1 ? "El vertice de corte es el: " : "Los vertices de corte son: ");
         for (int i = 0; i < count_vertices_de_corte; i++) {
@@ -65,22 +62,18 @@ bool esConexo(Fila *filas, int n, bool *eliminados) {
         return false;
     }
 
-    // Encuentra el primer nodo no eliminado para iniciar DFS
     int inicio = 0;
     while (inicio < n && eliminados[inicio]) {
         inicio++;
     }
 
-    // Si todos los nodos han sido eliminados, el grafo no es conexo
     if (inicio == n) {
         free(visitado);
         return false;
     }
 
-    // Ejecuta DFS desde el nodo inicial
     dfs(inicio, visitado, filas, n, eliminados);
 
-    // Verifica si todos los nodos no eliminados fueron visitados
     bool conexo = true;
     for (int i = 0; i < n; i++) {
         if (!visitado[i] && !eliminados[i]) {
@@ -93,31 +86,27 @@ bool esConexo(Fila *filas, int n, bool *eliminados) {
     return conexo;
 }
 
-// Función para eliminar un grupo de nodos y sus aristas correspondientes del grafo
-void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size, int caso) {
+// Modifica la función eliminarGrupoYImprimir para aceptar k_conexidad como parámetro
+void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size, int caso, int *k_conexidad) {
     bool *eliminados = calloc(n, sizeof(bool));
     if (eliminados == NULL) {
         printf("Error al asignar memoria para el arreglo de eliminados.\n");
         return;
     }
 
-    // Marcar los nodos a eliminar
     for (int j = 0; j < size; j++) {
-        eliminados[grupo[j] - 1] = true; // Suponiendo que los vértices empiezan desde 1
+        eliminados[grupo[j] - 1] = true;
     }
 
-    // Verificar si el nuevo grafo es conexo
     bool conexo = esConexo(filas, n, eliminados);
 
-    // Limpiar el string del grupo
-    char *grupo_str = malloc(100); // Suponiendo un tamaño máximo de 100 caracteres
+    char *grupo_str = malloc(100);
     if (grupo_str == NULL) {
         printf("Error al asignar memoria para el string del grupo.\n");
         free(eliminados);
         return;
     }
 
-    // Formar la cadena de nodos eliminados
     strcpy(grupo_str, "");
     for (int j = 0; j < size; j++) {
         char temp[10];
@@ -128,10 +117,13 @@ void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size, int caso) 
         }
     }
 
-    if (caso == 3){
-        printf("El grafo %ses conexo%s al eliminar %s %s: %s\n", conexo ? VERDE : ROJO "no ", RESET_COLOR, size == 1 ? "el" : "los", size == 1 ? "vertice" : "vertices", grupo_str);
+    if (caso == 3) {
+        printf("El grafo %ses conexo%s al eliminar %s %s: %s\n",
+               conexo ? VERDE : ROJO "no ", RESET_COLOR,
+               size == 1 ? "el" : "los",
+               size == 1 ? "vertice" : "vertices", grupo_str);
     }
-    // Almacenar el vértice si el tamaño del grupo es 1 y el grafo es no conexo
+
     if (size == 1 && !conexo) {
         verticesdecorte(grupo[0]);
     }
@@ -140,34 +132,87 @@ void eliminarGrupoYImprimir(Fila *filas, int n, int *grupo, int size, int caso) 
     free(eliminados);
 }
 
-// Función para generar todas las combinaciones de nodos a eliminar
-void generarCombinaciones(Fila *filas, int n, int *grupo, int size, int start, int k, int caso) {
+// Modifica la función generarCombinaciones para aceptar k_conexidad como parámetro
+void generarCombinaciones(Fila *filas, int n, int *grupo, int size, int start, int k, int caso, int *k_conexidad) {
     if (k == 0) {
-        eliminarGrupoYImprimir(filas, n, grupo, size, caso);
+        eliminarGrupoYImprimir(filas, n, grupo, size, caso, k_conexidad);
         return;
     }
 
     for (int i = start; i < n; i++) {
         grupo[size] = filas[i].primera_columna;
-        generarCombinaciones(filas, n, grupo, size + 1, i + 1, k - 1, caso);
+        generarCombinaciones(filas, n, grupo, size + 1, i + 1, k - 1, caso, k_conexidad);
     }
 }
 
-// Función principal que llama a la generación de combinaciones
+// Actualiza la función eliminarNodos para pasar el puntero a k_conexidad
 void eliminarNodos(Fila *filas, int n, int caso) {
-    for (int k = 1; k <= n - 2; k++) { // se eliminan grupos de tamaño 1 hasta n-2
+    k_conexidad = 0;
+    for (int k = 1; k <= n - 2; k++) {
         int *grupo = malloc(k * sizeof(int));
         if (grupo == NULL) {
             printf("Error al asignar memoria para el grupo de nodos.\n");
             return;
         }
 
-        if (caso == 3){
+        if (caso == 3) {
             printf("" MAGENTA "Conexidad al eliminar %d %s:\n"RESET_COLOR"", k, k == 1 ? "vertice" : "vertices");
         }
-        
-        generarCombinaciones(filas, n, grupo, 0, 0, k, caso);
 
+        generarCombinaciones(filas, n, grupo, 0, 0, k, caso, &k_conexidad);
         free(grupo);
     }
+    printf("\nNo tiene caso evaluar mas alla de n-2 vertices, dado que nos quedaria solo un vertice y por definicion es conexo\n\n");
+}
+
+void retorna_K_conexidad(){
+    printf("La k conexiddad del grafo es: %d\n\n", k_conexidad);
+}
+
+//Función para ver los grados del grafo
+void gradosdelgrafo(Fila *filas, int n) {
+
+    int min_grado = filas[0].cantidad;
+    int max_grado = filas[0].cantidad;
+
+    // Encontrar el mínimo y máximo grado
+    for (int i = 1; i < n; i++) {
+        if (filas[i].cantidad < min_grado) {
+            min_grado = filas[i].cantidad;
+        }
+        if (filas[i].cantidad > max_grado) {
+            max_grado = filas[i].cantidad;
+        }
+    }
+
+    // Imprimir los nodos con grado mínimo
+    printf("Nodos con grado minimo (%d):\n", min_grado);
+    for (int i = 0; i < n; i++) {
+        if (filas[i].cantidad == min_grado) {
+            printf("Nodo: %d, Grado: %d\n", filas[i].primera_columna, filas[i].cantidad);
+        }
+    }
+
+    // Imprimir los nodos con grado máximo
+    printf("\nNodos con grado maximo (%d):\n", max_grado);
+    for (int i = 0; i < n; i++) {
+        if (filas[i].cantidad == max_grado) {
+            printf("Nodo: %d, Grado: %d\n", filas[i].primera_columna, filas[i].cantidad);
+        }
+    }
+    printf("\n");
+}
+
+//Función para ver los nodos que tienen un solo vecino
+void nodos_hoja(Fila *filas, int n) {
+    int contador = 0;
+    for (int i = 0; i < n; i++){
+        if (filas[i].cantidad == 1){
+            printf("El nodo %d, es un nodo ""hoja\n", filas[i].primera_columna);
+        }else {
+            contador++;
+        }
+    }
+    if (contador == n) printf("El grafo "ROJO"no tiene"RESET_COLOR" nodos hoja\n");
+    printf("\n");
 }
