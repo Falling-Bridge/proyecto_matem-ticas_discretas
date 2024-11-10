@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/hiref/OneDrive/Escritorio/proyecto_mates_discretas",
-      "program": "c:/Users/hiref/OneDrive/Escritorio/proyecto_mates_discretas/build/Debug/outDebug",
+      "cwd": "c:/Users/hiref/OneDrive/Escritorio/proyecto_mates_discretas/src",
+      "program": "c:/Users/hiref/OneDrive/Escritorio/proyecto_mates_discretas/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
