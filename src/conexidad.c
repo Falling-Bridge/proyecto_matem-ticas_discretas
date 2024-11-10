@@ -162,7 +162,7 @@ void eliminarNodos(Fila *filas, int n, int caso) {
         generarCombinaciones(filas, n, grupo, 0, 0, k, caso, &k_conexidad);
         free(grupo);
     }
-    printf("\nNo tiene caso evaluar mas alla de n-2 vertices, dado que nos quedaria solo un vertice y por definicion es conexo\n\n");
+    if (caso == 3) printf("\nNo tiene caso evaluar mas alla de %d vertices, dado que nos quedaria solo un vertice y por definicion es conexo\n\n", n - 2);
 }
 
 void retorna_K_conexidad(){
@@ -215,4 +215,63 @@ void nodos_hoja(Fila *filas, int n) {
     }
     if (contador == n) printf("El grafo "ROJO"no tiene"RESET_COLOR" nodos hoja\n");
     printf("\n");
+}
+
+// Función para verificar la total conexidad al eliminar todas las combinaciones posibles de vértices
+void detectarTotalConexidad(Fila *filas, int n) {
+    bool esTotalmenteConexo = true;
+
+    // Iterar por cada tamaño de grupo de 1 a n - 2
+    for (int k = 1; k <= n - 2; k++) {
+        int *grupo = malloc(k * sizeof(int));
+        if (grupo == NULL) {
+            printf("Error al asignar memoria para el grupo de nodos.\n");
+            return;
+        }
+
+        // Generar todas las combinaciones posibles de tamaño k
+        esTotalmenteConexo = true;  // Asumir que es totalmente conexo
+        generarCombinacionesParaConexidad(filas, n, grupo, 0, 0, k, &esTotalmenteConexo);
+
+        if (esTotalmenteConexo) {
+            k_conexidad++;  // Aumentar la k_conexidad si es totalmente conexo para este tamaño
+        }
+
+        free(grupo);
+    }
+}
+
+// Función auxiliar para generar combinaciones y verificar conexidad
+void generarCombinacionesParaConexidad(Fila *filas, int n, int *grupo, int size, int start, int k, bool *esTotalmenteConexo) {
+    if (k == 0) {
+        // Verificar la conexidad al eliminar este grupo de vértices
+        bool *eliminados = calloc(n, sizeof(bool));
+        if (eliminados == NULL) {
+            printf("Error al asignar memoria para el arreglo de eliminados.\n");
+            return;
+        }
+
+        // Marcar los vértices en el grupo como eliminados
+        for (int j = 0; j < size; j++) {
+            eliminados[grupo[j] - 1] = true;
+        }
+
+        // Verificar si el grafo es conexo
+        if (!esConexo(filas, n, eliminados)) {
+            *esTotalmenteConexo = false;  // Marcar como no totalmente conexo si encontramos un caso no conexo
+        }
+
+        free(eliminados);
+        return;
+    }
+
+    // Generar combinaciones recursivamente
+    for (int i = start; i < n; i++) {
+        grupo[size] = filas[i].primera_columna;
+        generarCombinacionesParaConexidad(filas, n, grupo, size + 1, i + 1, k - 1, esTotalmenteConexo);
+    }
+}
+
+void retornakconexidad(){
+    printf("La k_conexidad del grafo es: %d\n\n", k_conexidad);
 }

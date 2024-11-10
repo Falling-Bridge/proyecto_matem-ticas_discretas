@@ -40,7 +40,7 @@ void leerarchivo(FILE *archivo) {
             // Leer el 'nombre' del nodo
             if (sscanf(linea, "%d:", &primer_valor) != 1) {
                 printf("Error al leer el nodo %d.\n", contador_nodos + 1);
-                goto error;
+                goto error_de_nodos;
             }
 
             filas[contador_nodos].primera_columna = primer_valor;
@@ -184,7 +184,8 @@ void leerarchivo(FILE *archivo) {
 
             case 7:
                 system("cls");
-                retorna_K_conexidad();
+                detectarTotalConexidad(filas, n);
+                retornakconexidad();
                 break;
 
             case 10:
@@ -238,6 +239,7 @@ bool tieneVecinoReciproco(Fila *filas, int n){
 }
 
 void imprimirGrafo(Fila *filas, int n) {
+    printf("\nCantidad de vertices: %d\n\n", n);
     printf("Grafo:\n");
     for (int i = 0; i < n; i++) {
         printf("%d:", filas[i].primera_columna);

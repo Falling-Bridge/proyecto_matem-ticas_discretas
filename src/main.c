@@ -3,7 +3,7 @@
 #include "../include/lector.h"
 
 int main() {
-    char *archivo = "prueba.txt";
+    char *archivo = "./prueba.txt";
 
     FILE *lectura = fopen(archivo, "r");
     if (lectura == NULL) {
