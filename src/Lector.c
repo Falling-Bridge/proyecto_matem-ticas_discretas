@@ -68,8 +68,8 @@ void leerarchivo(FILE *archivo) {
                 if (isdigit((unsigned char)*ptr) && sscanf(ptr, "%d", &valor_adyacente) == 1) {
                     // Verificar que el vecino no sea el mismo nodo
                     if (valor_adyacente == primer_valor) {
-                        printf("Error: El nodo %d no puede ser vecino de sí mismo.\n", primer_valor);
-                        goto error;
+                        printf("Error: El nodo %d no puede ser vecino de si mismo.\n", primer_valor);
+                        goto error_de_nodos;
                     }
 
                     // Verificar si ya existe el vecino (duplicado)
