@@ -185,7 +185,7 @@ void leerarchivo(FILE *archivo) {
             case 7:
                 system("cls");
                 detectarTotalConexidad(filas, n);
-                retornakconexidad();
+                retornakconexidad(n);
                 break;
 
             case 10:
@@ -239,7 +239,7 @@ bool tieneVecinoReciproco(Fila *filas, int n){
 }
 
 void imprimirGrafo(Fila *filas, int n) {
-    printf("\nCantidad de vertices: %d\n\n", n);
+    printf("Cantidad de vertices: %d\n\n", n);
     printf("Grafo:\n");
     for (int i = 0; i < n; i++) {
         printf("%d:", filas[i].primera_columna);
