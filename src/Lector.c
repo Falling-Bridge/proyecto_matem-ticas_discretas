@@ -3,6 +3,7 @@
 
 void leerarchivo(FILE *archivo) {
     int n;
+    bool seguir_ejecutando_programa = true;
 
     // Leer el número de nodos
     if (fscanf(archivo, "%d", &n) != 1) {
@@ -11,7 +12,6 @@ void leerarchivo(FILE *archivo) {
             goto error_de_nodos;
         }
     }
-    printf("\nCantidad de nodos: %d\n\n", n);
 
     // Asignar memoria para las filas
     Fila *filas = malloc(n * sizeof(Fila));
@@ -40,7 +40,7 @@ void leerarchivo(FILE *archivo) {
             // Leer el 'nombre' del nodo
             if (sscanf(linea, "%d:", &primer_valor) != 1) {
                 printf("Error al leer el nodo %d.\n", contador_nodos + 1);
-                goto error;
+                goto error_de_nodos;
             }
 
             filas[contador_nodos].primera_columna = primer_valor;
@@ -68,8 +68,8 @@ void leerarchivo(FILE *archivo) {
                 if (isdigit((unsigned char)*ptr) && sscanf(ptr, "%d", &valor_adyacente) == 1) {
                     // Verificar que el vecino no sea el mismo nodo
                     if (valor_adyacente == primer_valor) {
-                        printf("Error: El nodo %d no puede ser vecino de sí mismo.\n", primer_valor);
-                        goto error;
+                        printf("Error: El nodo %d no puede ser vecino de si mismo.\n", primer_valor);
+                        goto error_de_nodos;
                     }
 
                     // Verificar si ya existe el vecino (duplicado)
@@ -122,11 +122,82 @@ void leerarchivo(FILE *archivo) {
 
     fclose(archivo);
     if (!tieneVecinoReciproco(filas, n)) goto error;
-    imprimirGrafo(filas, n);
-    if (esConexo(filas, n, eliminados)) printf("El grafo "CIAN"es conexo"RESET_COLOR"\n\n");
-    else printf("El grafo "CIAN" no es conexo"RESET_COLOR"\n\n");
-    eliminarNodos(filas, n);
-    imprimirVerticesDeCorte(esConexo(filas, n, eliminados));
+    int k_conexidad;
+
+    while (seguir_ejecutando_programa){
+        printf(""CIAN"Ingrese el numero de la opcion que desea ver:"RESET_COLOR"\n");
+        printf("[0]  para dejar de correr el programa\n");
+        printf("[1]  para ver el grafo\n");
+        printf("[2]  para ver la conexidad del grafo\n");
+        printf("[3]  para ver las combinatorias del grafo\n");
+        printf("[4]  para ver los vertices de corte\n");
+        printf("[5]  para ver los grados minimos y maximos del grafo\n");
+        printf("[6]  para ver los vertices 'hoja'\n");
+        printf("[7]  para ver la k conexidad del grafo\n");
+        printf("[10] para limpiar la pantalla\n");
+
+        int opcion;
+        char c;
+        if (scanf("%d", &opcion) != 1) {
+            while ((c = getchar()) != '\n' && c != EOF);
+        }
+        printf("\n");
+
+        switch (opcion) {
+
+            case 0:
+                system("cls");
+                seguir_ejecutando_programa = false;
+                break;
+
+            case 1:
+                system("cls");
+                imprimirGrafo(filas, n);
+                break;
+            
+            case 2:
+                system("cls");
+                if (esConexo(filas, n, eliminados)) printf("El grafo "CIAN"es conexo"RESET_COLOR"\n\n");
+                else printf("El grafo "CIAN" no es conexo"RESET_COLOR"\n\n");
+                break;
+
+            case 3:
+                system("cls");
+                eliminarNodos(filas, n, 3);
+                break;
+            
+            case 4:
+                system("cls");
+                eliminarNodos(filas, n, 4);
+                imprimirVerticesDeCorte(esConexo(filas, n, eliminados));
+                break;
+            
+            case 5:
+                system("cls");
+                gradosdelgrafo(filas, n);
+                break;
+            
+            case 6:
+                system("cls");
+                nodos_hoja(filas, n);
+                break;
+
+            case 7:
+                system("cls");
+                detectarTotalConexidad(filas, n);
+                retornakconexidad(n);
+                break;
+
+            case 10:
+                system("cls");
+                break;
+
+            default:
+                system("cls");
+                break;
+        }
+    }
+
     liberarMemoria(filas, n);
     free(eliminados);
     return;
@@ -168,6 +239,7 @@ bool tieneVecinoReciproco(Fila *filas, int n){
 }
 
 void imprimirGrafo(Fila *filas, int n) {
+    printf("Cantidad de vertices: %d\n\n", n);
     printf("Grafo:\n");
     for (int i = 0; i < n; i++) {
         printf("%d:", filas[i].primera_columna);

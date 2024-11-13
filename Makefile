@@ -8,7 +8,7 @@ OBJDIR = obj
 INCDIR = include
 
 # Archivos fuente y objetos
-codigo = $(SRCDIR)/Lector.c $(SRCDIR)/main.c $(SRCDIR)/freememory.c $(SRCDIR)/conexidad.c $(SRCDIR)/visualizacion.c
+codigo = $(SRCDIR)/Lector.c $(SRCDIR)/main.c $(SRCDIR)/freememory.c $(SRCDIR)/conexidad.c
 OBJECTS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(codigo))
 
 # Aseguramos que no se consideren estas como archivos
@@ -19,10 +19,12 @@ all: $(TARGET)
 
 # Regla para generar el ejecutable
 $(TARGET): $(OBJECTS)
+	@echo "Compilando el Programa..."
 	@$(CC) $(OBJECTS) -o $(TARGET) $(CFLAGS)
 
 # Regla para generar los archivos objeto
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	@echo "Compilando $<..."
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
 # Crear el directorio de objetos si no existe
@@ -31,6 +33,7 @@ $(OBJDIR):
 
 # Ejecutar el programa
 run: $(TARGET)
+	@echo "Ejecutando el Programa"
 	@./$(TARGET)
 
 # Depurar con GDB
@@ -47,3 +50,7 @@ clean:
 	@if exist $(TARGET) del $(TARGET)
 
 #comandos para correr el makefile mingw32-make run/debug/clean
+
+#en caso de no tener instalado el mingw, puede compilar y correr el programa con los siguientes comandos
+#gcc -g -Wall -I include -O2 -o juanito.out src/Lector.c src/main.c src/freememory.c src/conexidad.c
+#para correr el programa se llama a .\juanito.exe
