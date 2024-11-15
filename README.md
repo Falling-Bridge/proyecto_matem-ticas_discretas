@@ -31,7 +31,7 @@ Pasos para ejecutar el código:
      
       si no posee mingw32 o mingw64, se puede usar el siguiente comando:
           
-      gcc -g -Wall -I include -O2 -o juanito.out src/Lector.c src/main.c src/freememory.c src/conexidad.c
+      gcc -g -Wall -I include -O2 -o juanito.exe src/Lector.c src/main.c src/freememory.c src/conexidad.c
          
       para poder ejecutar el proyecto se ocupa:
           
