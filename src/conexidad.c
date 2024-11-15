@@ -265,7 +265,7 @@ void generarCombinacionesParaConexidad(Fila *filas, int n, int *grupo, int size,
     }
 }
 
-void retornakconexidad(int n) {
+void retornakconexidad(Fila *filas, int n, bool *eliminados) {
 
     if(estotalmenteconexo){
         // Verificar si el grafo tiene más vértices que el valor de k
@@ -282,6 +282,6 @@ void retornakconexidad(int n) {
         }
     }
 
-    if (!estotalmenteconexo) printf("El grafo original no es conexo, por lo tanto no tiene sentido hablar de k conexidad\n\n");
+    if (!esConexo(filas, n, eliminados)) printf("El grafo original no es conexo, por lo tanto no tiene sentido hablar de k conexidad\n\n");
     else printf("La k_conexidad del grafo es: %d\n\n", k_conexidad);
 }

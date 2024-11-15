@@ -185,7 +185,7 @@ void leerarchivo(FILE *archivo) {
             case 7:
                 system("cls");
                 detectarTotalConexidad(filas, n);
-                retornakconexidad(n);
+                retornakconexidad(filas, n, eliminados);
                 break;
 
             case 10:
