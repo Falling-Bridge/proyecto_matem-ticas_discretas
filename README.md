@@ -13,7 +13,7 @@ Pasos para ejecutar el código:
 1)Tener un editor de código Visual Studio, CLion, o cualquier otro IDE que soporte desarrollo en C.
 
 2)Tener un compilador instalado:
-  si el editor escogido no viene con un compilador, es necesario instalar uno. Para Visual Studio, es necesario haber seleccionado el "C++ Development Workload" 
+  Si el editor escogido no viene con un compilador, es necesario instalar uno. Para Visual Studio, es necesario haber seleccionado el "C++ Development Workload" 
   durante la instalación, ya que incluye el compilador de C. En caso de usar otro editor, como Visual Studio Code, se debe instalar MinGW o GCC.
   
 3)Configurar tu entorno de compilación:
@@ -29,7 +29,7 @@ Pasos para ejecutar el código:
           
       mingw32-make run
      
-      si no posee mingw32 o mingw63, se puede usar el siguiente comando:
+      si no posee mingw32 o mingw64, se puede usar el siguiente comando:
           
       gcc -g -Wall -I include -O2 -o juanito.out src/Lector.c src/main.c src/freememory.c src/conexidad.c
          
