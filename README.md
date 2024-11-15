@@ -53,21 +53,32 @@ El formato que deben seguir los archivos de grafos, es el siguiente:
 
 dando un ejemplo, debería verse de esta manera: 
 
-5\n
-1:2,3,4\n
+5
+
+1:2,3,4
+
 2:1,3
+
 3:1,2,5
+
 4:1
+
 5:3
 
 otro ejemplo es:
 
 6
+
 1:
+
 2:3,4
+
 3:2,5,4
+
 4:2,3,5,6
+
 5:3,4
+
 6:4
 
 una vez establecido el formato explicado, guardar y volver al paso 4.
