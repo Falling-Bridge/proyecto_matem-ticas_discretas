@@ -255,7 +255,7 @@ void detectarTotalConexidad(Fila *filas, int n) {
 // Función auxiliar para generar combinaciones y verificar conexidad
 void generarCombinacionesParaConexidad(Fila *filas, int n, int *grupo, int size, int start, int k, bool *esTotalmenteConexo) {
     if (k == 0) {
-        eliminarGrupoYImprimir(filas, n, grupo, size, 3, &k_conexidad);
+        eliminarGrupoYImprimir(filas, n, grupo, size, 0, &k_conexidad);
         return;
     }
 
@@ -276,7 +276,7 @@ void retornakconexidad(int n) {
             } 
 
         } if (k_conexidad == 0) {
-            if(n == 1) printf("Por la definicion de conexidad proporcionada, el caso donde el numero de vertices.\nPor lo tanto no tiene sentido hablar de la k conexidad\n\n");
+            if(n == 1) printf("Por la definicion de conexidad proporcionada, el caso donde el numero de vertices es 1.\nPor lo tanto no tiene sentido hablar de la k conexidad\n\n");
             // Si n es menor o igual a k_conexidad, se verifica si es posible que el grafo sea k-conexo
             if (n > 1) printf("La k_conexidad del grafo es: 1\n\n");
         }

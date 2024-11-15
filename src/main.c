@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/lector.h"
+#define archivo "./pruebas/grafo1"
 
 int main() {
-    char *archivo = "./prueba.txt";
 
     FILE *lectura = fopen(archivo, "r");
     if (lectura == NULL) {
