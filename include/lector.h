@@ -17,11 +17,8 @@ typedef struct {
     int cantidad;
 } Fila;
 
-//prototipos de funciones
 void leerarchivo(FILE *archivo);
 bool tieneVecinoReciproco(Fila *filas, int n);
 void imprimirGrafo(Fila *filas, int n);
-
-
 
 #endif // LECTOR_H

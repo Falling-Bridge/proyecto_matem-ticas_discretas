@@ -52,5 +52,5 @@ clean:
 #comandos para correr el makefile mingw32-make run/debug/clean
 
 #en caso de no tener instalado el mingw, puede compilar y correr el programa con los siguientes comandos
-#gcc -g -Wall -I include -O2 -o juanito.out src/Lector.c src/main.c src/freememory.c src/conexidad.c
-#para correr el programa se llama a .\juanito.exe
+#gcc -g -Wall -I include -O2 src/Lector.c src/main.c src/freememory.c src/conexidad.c -o juanito.exe
+#./juanito.exe

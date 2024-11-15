@@ -7,7 +7,6 @@
 #define MAX_VERTICES_DE_CORTE 100
 
 //prototipos de funciones
-
 void verticesdecorte(int vertice);
 void imprimirVerticesDeCorte(bool conexidad);
 void dfs(int nodo, bool *visitado, Fila *filas, int n, bool *eliminados);
@@ -19,7 +18,8 @@ void gradosdelgrafo(Fila *filas, int n);
 void nodos_hoja(Fila *filas, int n);
 void detectarTotalConexidad(Fila *filas, int n);
 void generarCombinacionesParaConexidad(Fila *filas, int n, int *grupo, int size, int start, int k, bool *esTotalmenteConexo);
-void retorna_k_conexidad();
+void retornakconexidad(Fila *filas, int n, bool *eliminados);
 
-#endif
+#endif // CONEXIDAD_H
+
 
