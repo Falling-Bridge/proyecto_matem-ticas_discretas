@@ -1,10 +1,8 @@
 Integrantes del grupo:
 
-Vicente Ramírez Torrealba
-
-Lucas Morales Oyanedel
-
-Diego Matus Salas
+    Vicente Ramírez Torrealba
+    Lucas Morales Oyanedel
+    Diego Matus Salas
 
 El propósito de este archivo es explicar cómo compilar e ingresar un grafo correctamente para que sea analizado por el código. 
 Teniendo en cuenta que este programa fue diseñado específicamente para sistemas operativos Windows; por lo tanto, 
