@@ -20,7 +20,7 @@ Pasos para ejecutar el código:
   Clonar el repositortio y abrirlo en el editor de código escogido (tener instalado git es necesario para este paso)
   Se puede clonar el repositorio con el comando (en terminal cmd o powershell): 
   
-  git clone https://github.com/Falling-Bridge/proyecto_mates_discretas.git
+      git clone https://github.com/Falling-Bridge/proyecto_mates_discretas.git
 
 4)Compilar el código
   Se debe presionar el icono que parece un triangulo en la parte superior del editor, si no se encuentra, puede abrir una terminal cmd o powershell
