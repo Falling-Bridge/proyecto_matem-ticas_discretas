@@ -5,7 +5,6 @@ int vertices_de_corte[MAX_VERTICES_DE_CORTE];
 int count_vertices_de_corte = 0;
 int k_conexidad = 0;
 bool estotalmenteconexo = false;
-int contadortotalconexidad = 0;
 
 // Función para almacenar el vértice de corte
 void verticesdecorte(int vertice) {
@@ -241,7 +240,6 @@ void detectarTotalConexidad(Fila *filas, int n) {
             free(grupo);
             break;
         }
-        contadortotalconexidad++;
 
         // Incrementamos k_conexidad si el grupo es totalmente conexo
         if(k_conexidad == 0 || k_conexidad < 4) k_conexidad++;
@@ -313,10 +311,7 @@ void retornakconexidad(Fila *filas, int n, bool *eliminados) {
         }
     }
 
-
-    if (contadortotalconexidad == 3) {
-        printf("La k_conexidad del grafo es: 4\n\n");
-        return;
-    }
-    else printf("La k_conexidad del grafo es: %d\n\n", k_conexidad);
+    if (k_conexidad < 4){
+        printf("La k_conexidad del grafo es: %d\n\n", k_conexidad + 1);
+    } 
 }
