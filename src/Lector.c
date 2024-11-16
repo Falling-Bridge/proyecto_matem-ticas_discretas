@@ -1,5 +1,6 @@
 #include "../include/lector.h"
 #include "../include/freememory.h"
+#include "../include/conexidad.h"
 
 void leerarchivo(FILE *archivo) {
     int n;
