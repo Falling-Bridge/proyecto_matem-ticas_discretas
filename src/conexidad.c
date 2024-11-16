@@ -57,6 +57,8 @@ void dfs(int nodo, bool *visitado, Fila *filas, int n, bool *eliminados) {
 
 // Función para verificar si el grafo es conexo
 bool esConexo(Fila *filas, int n, bool *eliminados) {
+
+
     bool *visitado = calloc(n, sizeof(bool));
     if (visitado == NULL) {
         printf("Error al asignar memoria para el arreglo de visitados.\n");
@@ -76,6 +78,7 @@ bool esConexo(Fila *filas, int n, bool *eliminados) {
     dfs(inicio, visitado, filas, n, eliminados);
 
     bool conexo = true;
+
     for (int i = 0; i < n; i++) {
         if (!visitado[i] && !eliminados[i]) {
             conexo = false;
@@ -149,7 +152,7 @@ void generarCombinaciones(Fila *filas, int n, int *grupo, int size, int start, i
 // Actualiza la función eliminarNodos para pasar el puntero a k_conexidad
 void eliminarNodos(Fila *filas, int n, int caso) {
     k_conexidad = 0;
-    for (int k = 1; k <= n - 2; k++) {
+    for (int k = 1; k <= n - 1; k++) {
         int *grupo = malloc(k * sizeof(int));
         if (grupo == NULL) {
             printf("Error al asignar memoria para el grupo de nodos.\n");
@@ -290,7 +293,6 @@ void retornakconexidad(Fila *filas, int n, bool *eliminados) {
 
     // Caso cuando el grafo no es conexo o la k-conexidad es 0
     if (estotalmenteconexo && k_conexidad == 0) {
-
         if (n > 1) {
             printf("La k_conexidad del grafo es: 1\n\n");
             return;
@@ -306,14 +308,13 @@ void retornakconexidad(Fila *filas, int n, bool *eliminados) {
         }
     }
 
-    // Caso cuando el número de vértices es mayor que k_conexidad
-    // if (n > k_conexidad) {
-    //     if (n != 1 && k_conexidad > 4) {
-    //         printf("La k_conexidad del grafo es: 4\n\n");
-    //         return;
-    //     }
-    // }
+    // Caso para grafos completos
+    if (estotalmenteconexo && k_conexidad == n - 2) {
+        printf("La k_conexidad del grafo completo es: %d\n\n", n - 1);
+        return;
+    }
 
     // Caso general
     printf("La k_conexidad del grafo es: %d\n\n", k_conexidad);
+    k_conexidad = 0;
 }
