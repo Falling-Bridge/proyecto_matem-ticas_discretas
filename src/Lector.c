@@ -126,7 +126,7 @@ void leerarchivo(FILE *archivo) {
     int k_conexidad;
 
     while (seguir_ejecutando_programa){
-        printf(""CIAN"Ingrese el numero de la opcion que desea ver:"RESET_COLOR"\n");
+        printf(""CIAN"\nIngrese el numero de la opcion que desea ver:"RESET_COLOR"\n");
         printf("[0]  para dejar de correr el programa\n");
         printf("[1]  para ver el grafo\n");
         printf("[2]  para ver la conexidad del grafo\n");

@@ -5,6 +5,7 @@ int vertices_de_corte[MAX_VERTICES_DE_CORTE];
 int count_vertices_de_corte = 0;
 int k_conexidad = 0;
 bool estotalmenteconexo = false;
+int contadortotalconexidad = 0;
 
 // Función para almacenar el vértice de corte
 void verticesdecorte(int vertice) {
@@ -149,7 +150,7 @@ void generarCombinaciones(Fila *filas, int n, int *grupo, int size, int start, i
 // Actualiza la función eliminarNodos para pasar el puntero a k_conexidad
 void eliminarNodos(Fila *filas, int n, int caso) {
     k_conexidad = 0;
-    for (int k = 1; k <= n - 2; k++) {
+    for (int k = 1; k <= 4; k++) {
         int *grupo = malloc(k * sizeof(int));
         if (grupo == NULL) {
             printf("Error al asignar memoria para el grupo de nodos.\n");
@@ -163,10 +164,7 @@ void eliminarNodos(Fila *filas, int n, int caso) {
         generarCombinaciones(filas, n, grupo, 0, 0, k, caso, &k_conexidad);
         free(grupo);
     }
-    if (caso == 3 && n > 2) printf("\nNo tiene caso evaluar mas alla de %d vertices, dado que nos quedaria solo un vertice y por definicion es conexo\n\n", n - 2);
-    if (caso == 3 && n <= 2) printf("\nNo tiene caso evaluar el grafo por la cantidad de vertices que tiene, %s", 
-                                    n == 1 ? "y al eliminarlo seria un grafo vacio\n\n" :
-                                             "al eliminar quedaria un solo vertice que por definicion es conexo\n\n");
+    if (caso == 3 && n > 4) printf("\nNo tiene caso evaluar mas alla de 4 vertices, por la definicion provista en el enunciado\n\n");
 }
 
 //Función para ver los grados del grafo
@@ -227,7 +225,7 @@ void detectarTotalConexidad(Fila *filas, int n) {
 
     estotalmenteconexo = true; // Asumimos que es totalmente conexo al inicio
 
-    for (int k = 1; k <= n - 2; k++) {
+    for (int k = 1; k <= 4; k++) {
         int *grupo = malloc(k * sizeof(int));
         if (grupo == NULL) {
             printf("Error al asignar memoria para el grupo de nodos.\n");
@@ -243,9 +241,10 @@ void detectarTotalConexidad(Fila *filas, int n) {
             free(grupo);
             break;
         }
+        contadortotalconexidad++;
 
         // Incrementamos k_conexidad si el grupo es totalmente conexo
-        k_conexidad++;
+        if(k_conexidad == 0 || k_conexidad < 4) k_conexidad++;
         free(grupo);
     }
 
@@ -308,12 +307,16 @@ void retornakconexidad(Fila *filas, int n, bool *eliminados) {
 
     // Caso cuando el número de vértices es mayor que k_conexidad
     if (n > k_conexidad) {
-        if (n != 1 && k_conexidad > 4) {
+        if (n != 1 && k_conexidad >= 4 || n > 4) {
             printf("La k_conexidad del grafo es: 4\n\n");
             return;
         }
     }
 
-    // Caso general
-    printf("La k_conexidad del grafo es: %d\n\n", k_conexidad);
+
+    if (contadortotalconexidad == 3) {
+        printf("La k_conexidad del grafo es: 4\n\n");
+        return;
+    }
+    else printf("La k_conexidad del grafo es: %d\n\n", k_conexidad);
 }
