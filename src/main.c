@@ -4,9 +4,9 @@
 
 int main() {
 
-    char *archivo[100];
+    char archivo[100];
     printf("A continuacion ingrese la ruta del archivo, debe seguir el formato: \"./pruebas/<nombre del archivo>\"\n\n");
-    scanf("%s", &archivo);
+    scanf("%s", archivo);
     FILE *lectura = fopen(archivo, "r");
     if (lectura == NULL) {
         perror("Error al abrir el archivo");
