@@ -40,7 +40,7 @@ Pasos para ejecutar el código:
 5) una vez que se haya logrado compilar y ejecutar el código, aparecerá un mensaje que dice:
   "Ingrese la ruta del archivo, debe seguir el formato: './pruebas/'nombre del archivo'
 
-  los nombres de archivo que puede escoger son ("grafo1", "k7", "k5", "prueba")
+  los nombres de archivo que puede escoger son ("grafo1", "k7", "k5", "prueba", entre otros)
   quedando las rutas de la forma:
     
     ./pruebas/grafo1
