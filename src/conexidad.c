@@ -255,12 +255,23 @@ void detectarTotalConexidad(Fila *filas, int n) {
 // Función auxiliar para generar combinaciones y verificar conexidad
 void generarCombinacionesParaConexidad(Fila *filas, int n, int *grupo, int size, int start, int k, bool *esTotalmenteConexo) {
     if (k == 0) {
+        // Crear un arreglo de eliminados basado en el grupo actual
+        bool *eliminados = calloc(n, sizeof(bool));
+        if (eliminados == NULL) {
+            printf("Error al asignar memoria para el arreglo de eliminados.\n");
+            return;
+        }
+        for (int j = 0; j < size; j++) {
+            eliminados[grupo[j] - 1] = true;
+        }
+
         // Verificar si el grafo es conexo al eliminar el grupo actual
-        bool conexo = esConexo(filas, n, grupo);
+        bool conexo = esConexo(filas, n, eliminados);
 
         if (!conexo) {
             *esTotalmenteConexo = false; // Si no es conexo, actualizamos el flag
         }
+        free(eliminados);
         return;
     }
 
@@ -296,12 +307,12 @@ void retornakconexidad(Fila *filas, int n, bool *eliminados) {
     }
 
     // Caso cuando el número de vértices es mayor que k_conexidad
-    if (n > k_conexidad) {
-        if (n != 1 && k_conexidad > 4) {
-            printf("La k_conexidad del grafo es: 4\n\n");
-            return;
-        }
-    }
+    // if (n > k_conexidad) {
+    //     if (n != 1 && k_conexidad > 4) {
+    //         printf("La k_conexidad del grafo es: 4\n\n");
+    //         return;
+    //     }
+    // }
 
     // Caso general
     printf("La k_conexidad del grafo es: %d\n\n", k_conexidad);
